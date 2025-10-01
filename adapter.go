@@ -190,6 +190,9 @@ func (a *BotAdapter) handleSlackEvents(brain *joe.Brain) {
 			)
 
 		case *slack.UnmarshallingErrorEvent:
+			if strings.Contains(ev.ErrorObj.Error(), "Received unmapped event") {
+				return
+			}
 			a.logger.Error("Slack unmarshalling error", zap.Error(ev.ErrorObj))
 
 		case *slack.InvalidAuthEvent:
